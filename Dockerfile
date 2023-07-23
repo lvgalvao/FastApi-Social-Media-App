@@ -17,10 +17,12 @@ RUN pip install --upgrade pip \
     && poetry install --only main --no-root
 
 # Copy the rest of your application
-COPY . .
+COPY . /app
+
+WORKDIR /app
 
 # Expose the port your app runs on
 EXPOSE 8000
 
 # Start the application
-CMD ["uvicorn", "fastapi_social_media_app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "fastapi_social_media_app.main:app", "--host", "0.0.0.0", "--port", "80"]
