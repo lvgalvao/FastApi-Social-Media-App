@@ -1,28 +1,23 @@
 # Use the official Python base image
 FROM python:3.11.3
 
-# Set the PYTHONPATH environment variable
-ENV PYTHONPATH=/app
-
-# Set the working directory
+# Set the working directory to /app
 WORKDIR /app
 
-# Copy your pyproject.toml file to the working directory
-COPY pyproject.toml ./
+# Copy the FastAPI application files to the container's working directory
+COPY ./app /app
 
-# Install Poetry, disable creation of virtual environments and install dependencies
+# Install Poetry
 RUN pip install --upgrade pip \
-    && pip install poetry \
-    && poetry config virtualenvs.create false \
-    && poetry install --only main --no-root
+    && pip install poetry
 
-# Copy the rest of your application
-COPY . /app
+# Install the application dependencies from pyproject.toml and poetry.lock
+COPY /app/pyproject.toml /app/poetry.lock ./
+RUN poetry config virtualenvs.create false \
+    && poetry install --no-root
 
-WORKDIR /app
-
-# Expose the port your app runs on
+# Make port 8000 available to the world outside this container
 EXPOSE 8000
 
-# Start the application
-CMD ["uvicorn", "fastapi_social_media_app.main:app", "--host", "0.0.0.0", "--port", "80"]
+# Run the application when the container starts
+CMD ["poetry", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
