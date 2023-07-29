@@ -1,7 +1,23 @@
+version: '3'
 services:
-  fastapi-social-media-app:
-    build: .
-    volumes:
-      - .:/app
+  postgres:
+    image: postgres:latest
     ports:
-      - 8000:8000
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: curso
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mysecretpassword
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  fastapi-app:
+    build:
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+
+volumes:
+  pg_data:
