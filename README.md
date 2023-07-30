@@ -2,6 +2,10 @@
 
 Aplicativo simples de CRUD com Python, utilizando FastAPI para testar funcionalidade de postagens em uma rede social. As operações incluem criação, leitura, atualização e exclusão de postagens. O projeto também implementa estruturas de roteamento e manipulação de erros e usa SQLAlchemy para operações do banco de dados.
 
+<center>
+    <img src="docs/arquitetura.png" width="500">
+</center>
+
 ## Tecnologias Usadas
 
 * FastAPI
