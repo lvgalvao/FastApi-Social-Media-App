@@ -4,6 +4,9 @@ FROM python:3.11.3
 # Set the working directory to /app
 WORKDIR /app
 
+# Update PYTHONPATH
+ENV PYTHONPATH=/app:$PYTHONPATH
+
 # Copy the FastAPI application files to the container's working directory
 COPY ./app /app
 
