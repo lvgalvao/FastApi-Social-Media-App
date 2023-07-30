@@ -1,11 +1,12 @@
 # Aplicativo de Mídia Social com FastAPI
 
-Olá pessoal, nesse projeto criamos um aplicativo simples de CRUD com Python, utilizando o módulo API para a funcionalidade de postagens em uma rede social.
+Aplicativo simples de CRUD com Python, utilizando FastAPI para testar funcionalidade de postagens em uma rede social. As operações incluem criação, leitura, atualização e exclusão de postagens. O projeto também implementa estruturas de roteamento e manipulação de erros e usa SQLAlchemy para operações do banco de dados.
 
 ## Tecnologias Usadas
 
 * FastAPI
-* Postgress
+* SQLAlchemy
+* PostgreSQL
 * Docker
 
 ## Configuração do Projeto
@@ -29,8 +30,6 @@ O comando acima irá:
 * Mapear a porta 8000 dentro do contêiner Docker para a porta 8000 em sua máquina local.
 * Montar a pasta do projeto dentro do contêiner Docker, de modo que as alterações feitas na pasta do projeto em sua máquina local sejam refletidas dentro do contêiner.
 
-Uma vez que o contêiner esteja rodando, você pode acessar o aplicativo navegando para `http://localhost:8000` em seu navegador web.
-
 ## Como Acessar a Documentação da API (FastAPI Docs) para Realizar Operações CRUD
 
 Com o aplicativo FastAPI em execução, abra o navegador da web e acesse o seguinte URL:
@@ -50,6 +49,5 @@ A aplicação FastAPI Social Media App possui uma documentação abrangente da A
     * **DELETE `/posts/{id}`**: Excluir um post por ID.
     * **PUT `/posts/{id}`**: Atualizar um post por ID.
     
-
 
 A documentação da API fornecida pelo FastAPI torna fácil entender e testar as funcionalidades da API sem a necessidade de ferramentas adicionais ou software externo. Divirta-se testando e explorando o FastAPI Social Media App!
