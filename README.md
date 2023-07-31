@@ -77,3 +77,10 @@ A aplicação FastAPI Social Media App possui uma documentação abrangente da A
     
 
 A documentação da API fornecida pelo FastAPI torna fácil entender e testar as funcionalidades da API sem a necessidade de ferramentas adicionais ou software externo. Divirta-se testando e explorando o FastAPI Social Media App!
+
+## Contato
+
+Se você tiver alguma dúvida, sugestão ou apenas quiser conversar sobre este projeto, sinta-se à vontade para me contatar:
+
+* E-mail: lvgalvaofilhol@example.com
+* LinkedIn: [Luciano Filho](https://www.linkedin.com/in/lucianovasconcelosf/)
