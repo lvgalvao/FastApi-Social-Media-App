@@ -1,21 +1,25 @@
-from fastapi import APIRouter, Depends, HTTPException, status, Response
-from sqlalchemy.orm import Session
+from fastapi import APIRouter, Depends, HTTPException, Response, status
 from pydantic import BaseModel
+from sqlalchemy.orm import Session
 
-from database import get_db
 import models
+from database import get_db
+
 
 class Post(BaseModel):
     title: str
     content: str
     published: bool = True
 
+
 router = APIRouter()
+
 
 @router.get('/')
 def get_posts(db: Session = Depends(get_db)):
     posts = db.query(models.Post).all()
     return {'data': posts}
+
 
 @router.get('/{id}')
 def get_post(id: int, db: Session = Depends(get_db)):
@@ -27,6 +31,7 @@ def get_post(id: int, db: Session = Depends(get_db)):
         )
     return {'data': post}
 
+
 @router.post('/', status_code=status.HTTP_201_CREATED)
 def create_posts(post: Post, db: Session = Depends(get_db)):
     new_post = models.Post(**post.dict())
@@ -34,6 +39,7 @@ def create_posts(post: Post, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(new_post)
     return {'data': new_post}
+
 
 @router.delete('/{id}')
 def delete_post(id: int, db: Session = Depends(get_db)):
@@ -46,6 +52,7 @@ def delete_post(id: int, db: Session = Depends(get_db)):
     db.delete(post_to_delete)
     db.commit()
     return Response(status_code=status.HTTP_204_NO_CONTENT)
+
 
 @router.put('/{id}')
 def update_post(id: int, updated_post: Post, db: Session = Depends(get_db)):
