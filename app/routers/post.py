@@ -1,27 +1,21 @@
 from fastapi import APIRouter, Depends, HTTPException, Response, status
-from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
 import models
+from schemas import PostCreate, Post
 from database import get_db
-
-
-class Post(BaseModel):
-    title: str
-    content: str
-    published: bool = True
-
+from typing import List
 
 router = APIRouter()
 
 
-@router.get('/')
+@router.get('/', response_class=List[Post])
 def get_posts(db: Session = Depends(get_db)):
     posts = db.query(models.Post).all()
-    return {'data': posts}
+    return posts
 
 
-@router.get('/{id}')
+@router.get('/{id}', response_model=Post)
 def get_post(id: int, db: Session = Depends(get_db)):
     post = db.query(models.Post).filter(models.Post.id == id).first()
     if not post:
@@ -29,16 +23,16 @@ def get_post(id: int, db: Session = Depends(get_db)):
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f'post with id: {id} was not found',
         )
-    return {'data': post}
+    return post
 
 
-@router.post('/', status_code=status.HTTP_201_CREATED)
-def create_posts(post: Post, db: Session = Depends(get_db)):
-    new_post = models.Post(**post.dict())
+@router.post('/', status_code=status.HTTP_201_CREATED, response_model=Post)
+def create_posts(post: PostCreate, db: Session = Depends(get_db)):
+    new_post = models.Post(**post.model_dump())
     db.add(new_post)
     db.commit()
     db.refresh(new_post)
-    return {'data': new_post}
+    return new_post
 
 
 @router.delete('/{id}')
@@ -54,8 +48,8 @@ def delete_post(id: int, db: Session = Depends(get_db)):
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
-@router.put('/{id}')
-def update_post(id: int, updated_post: Post, db: Session = Depends(get_db)):
+@router.put('/{id}', response_model=Post)
+def update_post(id: int, updated_post: PostCreate, db: Session = Depends(get_db)):
     post_query = db.query(models.Post).filter(models.Post.id == id)
     post = post_query.first()
     if post == None:
@@ -63,7 +57,7 @@ def update_post(id: int, updated_post: Post, db: Session = Depends(get_db)):
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f'post with id: {id} was not found',
         )
-    for key, value in updated_post.dict().items():
+    for key, value in updated_post.model_dump().items():
         setattr(post, key, value)
     db.commit()
-    return {'data': post}
+    return post
