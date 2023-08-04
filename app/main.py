@@ -1,11 +1,9 @@
 from fastapi import FastAPI
 
-import models
-from database import engine
 from routers import post as post_router
-
-models.Base.metadata.create_all(bind=engine)
+from routers import user as user_router
 
 app = FastAPI()
 
 app.include_router(post_router.router, prefix='/posts', tags=['posts'])
+app.include_router(user_router.router, prefix='/users', tags=['users'])

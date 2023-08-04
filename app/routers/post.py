@@ -1,15 +1,16 @@
+from typing import List
+
 from fastapi import APIRouter, Depends, HTTPException, Response, status
 from sqlalchemy.orm import Session
 
-import models
-from schemas import PostCreate, Post
-from database import get_db
-from typing import List
+import models.post as models
+from db.base import get_db
+from schemas.post import Post, PostCreate
 
 router = APIRouter()
 
 
-@router.get('/', response_class=List[Post])
+@router.get('/', response_model=List[Post])
 def get_posts(db: Session = Depends(get_db)):
     posts = db.query(models.Post).all()
     return posts
@@ -49,7 +50,9 @@ def delete_post(id: int, db: Session = Depends(get_db)):
 
 
 @router.put('/{id}', response_model=Post)
-def update_post(id: int, updated_post: PostCreate, db: Session = Depends(get_db)):
+def update_post(
+    id: int, updated_post: PostCreate, db: Session = Depends(get_db)
+):
     post_query = db.query(models.Post).filter(models.Post.id == id)
     post = post_query.first()
     if post == None:
