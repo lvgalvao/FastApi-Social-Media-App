@@ -6,12 +6,12 @@ from diagrams.onprem.client import Client
 
 with Diagram("FastAPI Social Media App", show=False):
     
-    with Cluster("FastAPI Docker Container"):
+    with Cluster("Aplicação FastAPI"):
         docker_app = Docker("FastAPI Docker")
-        app = Fastapi("Aplicação FastAPI")
+        app = Fastapi("FastAPI")
         docker_app - app
 
-    with Cluster("PostgreSQL Docker Container"):
+    with Cluster("Banco de dados"):
         docker_db = Docker("PostgreSQL Docker")
         db = Postgresql("PostgreSQL")
         db - docker_db
